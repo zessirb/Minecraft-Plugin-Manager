@@ -14,7 +14,8 @@ Ex : ```python mpm.py init vanilla```
 ### python mpm.py install \<plugin\>
 
 The plugin must be a direct URL, for now.
-It will create a mods folder if needed and put the newly downloaded mod inside it.
+It will create a mods folder if needed and put the newly downloaded mod inside it.  
+Ex : ```python mpm.py install https://github.com/OnapleRPG/Itemizer/releases/download/1.5.4/Itemizer-1.5.4.jar```
 
 ## More to come ?
 
