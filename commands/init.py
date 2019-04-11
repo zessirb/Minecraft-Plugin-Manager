@@ -1,6 +1,8 @@
 from bs4 import BeautifulSoup
+import os
 import requests
 import time
+import urllib
 
 from utils.web_client import WebClient
 
@@ -10,6 +12,10 @@ class Init:
     def __init__(self, type, version=None):
         self.type = type
         self.version = version
+
+
+    def download_jar(self, url):
+        urllib.request.urlretrieve(url, './server.jar')
 
     def get_version_url(self):
         if self.type == 'vanilla':
@@ -33,12 +39,15 @@ class Init:
         mcversions_page = requests.get('https://mcversions.net')
         mcversions_soup = BeautifulSoup(mcversions_page.text, 'html.parser')
         versions = {}
-        versions['latest'] = mcversions_soup.find('li', attrs={'class': 'latest'}).find('a').get('href')
+        versions['latest'] = mcversions_soup.find('li', attrs={'class': 'latest'}).find('a', attrs={'class': 'server'})\
+            .get('href')
         releases = mcversions_soup.find_all('li', attrs={'class': 'release'})
         for release in releases:
             version_id = release.get('id')
-            version_url = release.find('a').get('href')
-            versions[version_id] = version_url
+            release_download_button = release.find('a', attrs={'class': 'server'})
+            if release_download_button:
+                version_url = release_download_button.get('href')
+                versions[version_id] = version_url
         return versions
 
     @staticmethod
@@ -51,7 +60,7 @@ class Init:
             build_found = len(spongepowered_soup.find_all('li', attrs={'class': 'build'})) > 0
             time.sleep(3)
             try_count += 1
-            if try_count > 5:
+            if try_count > 10:
                 # TODO : Raise exception here
                 return
         versions = {}
@@ -65,3 +74,10 @@ class Init:
                 version_url = release_download_button.get('href')
                 versions[version_id] = version_url
         return versions
+
+    def sign_eula(self):
+        eula_file = open('eula.txt', 'w')
+        eula_file.write('eula=true')
+
+    def execute_jar(self):
+        os.system('echo stop | java -jar ./server.jar nogui')

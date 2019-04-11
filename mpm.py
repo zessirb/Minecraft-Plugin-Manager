@@ -14,4 +14,11 @@ args = parent_parser.parse_args()
 
 if args.command == 'init':
     init_command = Init(args.type)
-    print(init_command.get_version_url())
+    print('Fetching ' + args.type + ' versions URL...')
+    jar_url = init_command.get_version_url()
+    print('Downloading installer...')
+    init_command.download_jar(jar_url)
+    print('Signing EULA...')
+    init_command.sign_eula()
+    print('Initializing the server...')
+    init_command.execute_jar()
