@@ -80,4 +80,4 @@ class Init:
         eula_file.write('eula=true')
 
     def execute_jar(self):
-        os.system('echo stop | java -jar ./server.jar nogui')
+        os.system('echo stop| java -jar ./server.jar nogui')
