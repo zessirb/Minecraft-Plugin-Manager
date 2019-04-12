@@ -5,7 +5,7 @@ MPM is an utility designed to ease the installation of a Minecraft server with o
 ## Installation
 
 You need python (+ pip) and Java installed.   
-Use the command ```pip install - r requirements.txt``` within the project folder to install the dependencies. 
+Use the command ```pip install -r requirements.txt``` within the project folder to install the dependencies. 
 
 ## Commands
 
